@@ -1,0 +1,52 @@
+data:
+  image: tianon/true
+  volumes:
+    - ./src:/home/rstudio:z
+    - ./shr/dynamic:/srv/shiny-server:z
+    - ./shr/static:/usr/share/nginx/html:z
+
+ropensci:
+  image: rocker/ropensci
+  environment:
+    - VIRTUAL_HOST=wrangler.local
+    - VIRTUAL_PORT=8787
+    - USER=rstudio
+    - PASSWORD=rstudio
+    - ROOT=TRUE
+  ports:
+    - "8787:8787"
+  volumes_from:
+    - data
+
+shiny:
+  image: rocker/shiny
+  environment:
+    - VIRTUAL_HOST=dynamic.local
+  ports:
+    - "3838:3838"
+  links:
+    - ropensci
+  volumes_from:
+    - data
+
+nginx:
+  image: nginx
+  environment:
+    - VIRTUAL_HOST=static.local
+  ports:
+    - "8080:80"
+    - "8443:443"
+  volumes_from:
+    - data
+
+proxy:
+  image: jwilder/nginx-proxy
+  ports:
+    - "80:80"
+    - "443:443"
+  links:
+    - shiny
+    - ropensci
+    - nginx
+  volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
