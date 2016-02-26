@@ -1,0 +1,72 @@
+---
+title: "mirroreum"
+output: 
+  html_document: 
+    theme: spacelab
+---
+
+# A platform for Reproducible Open Research
+
+This platform - `mirroreum` - is based on free and open source software components composed together into a system using `docker-compose`. It provides a web-based environment where authoring of reproducible open research is possible, as well as publication of results... both static results and interactive web-based applications.
+
+# Channels
+
+1. The first one is a regular simple and straightforward channel that communicates with _*policy makers*_ and regular users - essentially like a easily readable and interesting blog (like Wordpress, Ghost or similar). 
+
+2. In addition to this, a more advanced second channel that communicates with _*data scientists*_ and allows not only reading but authoring of integrative analysis pieces. 
+
+These channels communicate the same findings and uses the same data sources. But there is more details and depth in the section that welcomes data scientists. In there, all sources are opened up to reveal all steps of how the findings and conclusions were reached, in full detail.
+
+# Channel 2: Analysis platform for Data scientists
+
+Use a suitable hostname (suggestions?) to brand the service directed towards data scientists. This web-friendly Analysis Portal for data scientist would feature:
+
+  - Docker and docker-compose for packaging and deployment 
+  - ROpenSci with RStudio Server in web edition for data scientists / reproducible open research.
+  - Automatable scripted addition and deletion of users and login
+  - Pre-configured set of EUBON-curated data sources and set of packages loaded into the RStudio environment along with static reference datasets and .Rmd sources for visualizations etc 
+  - Any software tools delivered as R packages could use the Shiny web framework for providing easy-to-use web UIs
+
+### Packaging approach
+
+  - Package a solution with a separate server running RStudio in the web enabled server edition and make the whole setup reproducible using Docker. 
+
+  - Push the integration project to GitHub and then deploy to production server by cloning that github repo and starting the app with "docker-compose". Or push an image to a Docker registry such as the public Docker Hub (requires a little bit more work).  (NOT DONE)
+ 
+# Channel 1: Blog with stories for policy makers / non-experts
+
+This can be done completely separately or as part of this effort but publishing results to another place (still integrable such as publishing results to a static Jekyll-site to GitHub under your own subdomain). 
+
+Here are some thought relating to these two possible approaches, ie publishing to "dynamic blog-like site" or to "static blog-aware site":
+
+## Approach 1: Publishing to a "dynamic blog-type site"
+
+One approach could be to use `wordpress` or `ghost` (see http://bitnami.com/stacks/cms) to communicate a couple of nice stories that can be understood by regular users (non-experts with no whatsoever knowledge of modelling, data manipulation, visualization etc). 
+
+Here content could be provided which is relevant to the context. One could include various links to stimulate discussions and encourage further investigations, for example using the "data scientist's toolbox" which is integrated into the portal. Such content could also include overviews to deliveries from EUBON, ie:
+
+1. List of data sources - compiled and curated (for example various web services perhaps registered at the biodiversitycatalogue.org and in other places)
+
+2. List of recommended software tools - compiled and curated (for example at github, gitlab or in other repositories)
+
+## Approach 2: Publishing to a "static blog-aware site"
+
+Another approach is publishing as a static Jekyll GitHub site with some specific interesting results. Publishing results in the format of Jekyll Blog-Aware static site support authoring with existing packages using markdown - this could be a highly scalable and suitable format with little to no maintenance required for running the service (see http://jekyllrb.com/) which could make it preferable over Wordpress, Ghost etc etc, depending on your requirements and preferences.
+
+The Jekyll approach is very GitHub-friendly and hosting costs are zero as long at free software licenses are used. 
+
+This is an example of such a Jekyll site: https://training.github.com/
+
+# Integration approach
+
+It should be possible to integrate with EUBON portal content based on whatever CMS is being used by using static content served by `nginx` or referring to dynamic content from a `shiny server` which could host all relevant visualizations etc and can be used for publishing results. 
+
+# TODOs
+
+A lot of the capabilities above are alreay in place but here are a list of some important TODOs:
+
+  - Create an integration project somewhere at github which uses Docker and captures all configuration details and settings so that developers and others can git clone the full system locally on their laptop at any time.
+  - Include the "publish to Jekyll site" functionality
+  - Provide live example running the system on-line
+  - Find a good domain name to use for a proof of concept. Help?
+  - Find a list of public sources ie URLs or equivalent that provide access to all packages and datasets that should be bundled
