@@ -1,12 +1,12 @@
-data:
+fs:
   image: tianon/true
   volumes:
-    - ./src:/home/rstudio:z
-    - ./shr/dynamic:/srv/shiny-server:z
-    - ./shr/static:/usr/share/nginx/html:z
+    - ./src:/home/rstudio
+    - ./shr/dynamic:/srv/shiny-server
+    - ./shr/static:/usr/share/nginx/html
 
 ropensci:
-  image: rocker/ropensci
+  build: eubon-rocker
   environment:
     - VIRTUAL_HOST=wrangler.local
     - VIRTUAL_PORT=8787
@@ -16,28 +16,25 @@ ropensci:
   ports:
     - "8787:8787"
   volumes_from:
-    - data
+    - fs
 
 shiny:
   image: rocker/shiny
   environment:
     - VIRTUAL_HOST=dynamic.local
   ports:
-    - "3838:3838"
+    - "3737:3737"
   links:
     - ropensci
   volumes_from:
-    - data
+    - fs
 
 nginx:
   image: nginx
   environment:
     - VIRTUAL_HOST=static.local
-  ports:
-    - "8080:80"
-    - "8443:443"
   volumes_from:
-    - data
+    - fs
 
 proxy:
   image: jwilder/nginx-proxy

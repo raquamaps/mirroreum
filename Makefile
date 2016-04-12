@@ -8,16 +8,16 @@ init:
 	mkdir -p src shr/dynamic shr/static
 	
 build:
-#	docker-compose build --no-cache
+	docker-compose build
 
 up:
 	docker-compose up -d
-	echo "Running locally? Put {wrangler,static,dynamic}.local in your /etc/hosts!"
+	@echo "Running locally? Put {wrangler,static,dynamic}.local in your /etc/hosts!"
 	sleep 5
 	wget --retry-connrefused --tries=5 --waitretry=6 "http://wrangler.local"
 
-	echo "Opening app!"
-	firefox http://wrangler.dina-web.net/
+	@echo "Opening app!"
+	firefox http://wrangler.local/
 
 stop:
 	docker-compose stop
