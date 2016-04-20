@@ -9,7 +9,9 @@ RUN install2.r --error \
 	downscale \
 	getopt \
 	tufte \
-	tuftehandout
+	tufterhandout \
+	ggmap \
+	rticles
 
 RUN rm -rf /tmp/*.rds
 #  && install2.r --error \

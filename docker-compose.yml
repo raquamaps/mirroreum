@@ -12,6 +12,8 @@ fs.jekyll:
     - ./src/jekyll/_site:/usr/share/nginx/html:rw
 
 fs.proxy:
+  image: tianon/true
+  volumes:
     - ./letsencrypt/certs:/etc/nginx/certs:ro
     - ./letsencrypt/conf:/etc/nginx/vhost.d
     - ./letsencrypt/html:/usr/share/nginx/html
