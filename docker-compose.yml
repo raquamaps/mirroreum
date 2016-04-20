@@ -1,10 +1,10 @@
 fs:
   image: tianon/true
   volumes:
-    - ./src:/home/rstudio
-    - ./src/jekyll/:/src
-    - ./shr/dynamic:/srv/shiny-server
-    - ./shr/static:/usr/share/nginx/html
+    - ./src:/home/rstudio:rw
+    - ./src/jekyll/:/src:rw
+    - ./shr/dynamic:/srv/shiny-server:rw
+    - ./shr/static:/usr/share/nginx/html:rw
 
 fs.jekyll:
   image: tianon/true
@@ -12,9 +12,12 @@ fs.jekyll:
     - ./src/jekyll/_site:/usr/share/nginx/html:rw
 
 fs.proxy:
+  image: tianon/true
+  volumes:
     - ./letsencrypt/certs:/etc/nginx/certs:ro
     - ./letsencrypt/conf:/etc/nginx/vhost.d
     - ./letsencrypt/html:/usr/share/nginx/html
+    - /var/run/docker.sock:/tmp/docker.sock:ro
 
 ropensci:
   build: eubon-rocker
@@ -72,15 +75,20 @@ portal:
 
 proxy:
   image: jwilder/nginx-proxy
+  container_name: proxy
   ports:
     - "80:80"
     - "443:443"
-  volumes:
-    - /var/run/docker.sock:/tmp/docker.sock:ro
   volumes_from:
     - fs.proxy
 
 letsencrypt:
-  image: jrcs/lestencrypt-nginx-proxy-companion
+  environment:
+    - DEBUG=true
+    - NGINX_PROXY_CONTAINER=proxy
+  image: jrcs/letsencrypt-nginx-proxy-companion
   volumes_from:
     - fs.proxy
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - /letsencrypt/certs:/etc/nginx/certs:rw

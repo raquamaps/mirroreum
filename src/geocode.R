@@ -3,7 +3,7 @@ library(dplyr)
 library(purrr)
 library(tidyr)
 
-df <- data_frame(place = c("Stockholm", "Göteborg"))
+df <- data.frame(place = c("Stockholm", "Göteborg"), stringsAsFactors = FALSE)
 
 # geocode any batch of locality text strings
 geocoded <- mutate_geocode(data = df, place)

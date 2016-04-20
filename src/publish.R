@@ -1,6 +1,7 @@
 library(knitr)
 library(rmarkdown)
 library(tufte)
+library(tufterhandout)
 library(rticles)
 
 message("Publishing results")
@@ -30,4 +31,4 @@ render("hrf.Rmd",
 
 setwd("~")
 
-system("make static")
+system("sudo make static")
