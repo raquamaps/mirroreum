@@ -2,13 +2,26 @@ fs:
   image: tianon/true
   volumes:
     - ./src:/home/rstudio
+    - ./src/jekyll/:/src
     - ./shr/dynamic:/srv/shiny-server
     - ./shr/static:/usr/share/nginx/html
+
+fs.jekyll:
+  image: tianon/true
+  volumes:
+    - ./src/jekyll/_site:/usr/share/nginx/html:rw
+
+fs.proxy:
+    - ./letsencrypt/certs:/etc/nginx/certs:ro
+    - ./letsencrypt/conf:/etc/nginx/vhost.d
+    - ./letsencrypt/html:/usr/share/nginx/html
 
 ropensci:
   build: eubon-rocker
   environment:
-    - VIRTUAL_HOST=wrangler.local
+    - ENCRYPT_EMAIL=dina@mail.dina-web.net
+    - ENCRYPT_HOST=wrangler.mirroreum.eu
+    - VIRTUAL_HOST=wrangler.mirroreum.eu
     - VIRTUAL_PORT=8787
     - USER=rstudio
     - PASSWORD=rstudio
@@ -21,7 +34,9 @@ ropensci:
 shiny:
   image: rocker/shiny
   environment:
-    - VIRTUAL_HOST=dynamic.local
+    - ENCRYPT_EMAIL=dina@mail.dina-web.net
+    - ENCRYPT_HOST=dynamic.mirroreum.eu
+    - VIRTUAL_HOST=dynamic.mirroeum.eu
   ports:
     - "3737:3737"
   links:
@@ -32,18 +47,40 @@ shiny:
 nginx:
   image: nginx
   environment:
-    - VIRTUAL_HOST=static.local
+    - ENCRYPT_EMAIL=dina@mail.dina-web.net
+    - ENCRYPT_HOST=static.mirroreum.eu
+    - VIRTUAL_HOST=static.mirroreum.eu
   volumes_from:
     - fs
+
+jekyll:
+  image: grahamc/jekyll:next
+  command: build --incremental -w
+  ports:
+    - "4000:4000"
+  volumes_from:
+    - fs
+
+portal:
+  image: nginx
+  environment:
+    - ENCRYPT_EMAIL=dina@mail.dina-web.net
+    - ENCRYPT_HOST=mirroreum.eu,portal.mirroreum.eu,www.mirroreum.eu
+    - VIRTUAL_HOST=mirroreum.eu,portal.mirroreum.eu,www.mirroreum.eu
+  volumes_from:
+    - fs.jekyll
 
 proxy:
   image: jwilder/nginx-proxy
   ports:
     - "80:80"
     - "443:443"
-  links:
-    - shiny
-    - ropensci
-    - nginx
   volumes:
     - /var/run/docker.sock:/tmp/docker.sock:ro
+  volumes_from:
+    - fs.proxy
+
+letsencrypt:
+  image: jrcs/lestencrypt-nginx-proxy-companion
+  volumes_from:
+    - fs.proxy

@@ -9,9 +9,11 @@ output:
 
 This platform - `mirroreum` - is based on free and open source software components composed together into a system using `docker-compose`. It provides a web-based environment where authoring of reproducible open research is possible, as well as publication of results... both static results and interactive web-based applications.
 
-# Channels
+# Two channels to reach Policy Makers and Researchers
 
-1. The first one is a regular simple and straightforward channel that communicates with _*policy makers*_ and regular users - essentially like a easily readable and interesting blog (like Wordpress, Ghost or similar). 
+The "mirroreum" system provides two channels that reach different target audiences:
+
+1. The first one is a regular simple and straightforward channel that communicates with _*policy makers*_ and regular users - essentially like a easily readable and interesting blog (this uses Jekyll, which is a CMS like Wordpress, Ghost, Drupal or similar but automatable, so whole web sites can be generated of simple markdown files). 
 
 2. In addition to this, a more advanced second channel that communicates with _*data scientists*_ and allows not only reading but authoring of integrative analysis pieces. 
 
@@ -19,9 +21,9 @@ These channels communicate the same findings and uses the same data sources. But
 
 # Channel 2: Analysis platform for Data scientists
 
-Use a suitable hostname (suggestions?) to brand the service directed towards data scientists. This web-friendly Analysis Portal for data scientist would feature:
+This web-friendly Analysis Portal for data scientist features:
 
-  - Docker and docker-compose for packaging and deployment 
+  - Docker and docker-compose for portable development and packaging and even deployments 
   - ROpenSci with RStudio Server in web edition for data scientists / reproducible open research.
   - Automatable scripted addition and deletion of users and login
   - Pre-configured set of EUBON-curated data sources and set of packages loaded into the RStudio environment along with static reference datasets and .Rmd sources for visualizations etc 
@@ -29,10 +31,13 @@ Use a suitable hostname (suggestions?) to brand the service directed towards dat
 
 ### Packaging approach
 
+This is the packaging approach taken in this project:
+
   - Package a solution with a separate server running RStudio in the web enabled server edition and make the whole setup reproducible using Docker. 
 
-  - Push the integration project to GitHub and then deploy to production server by cloning that github repo and starting the app with "docker-compose". Or push an image to a Docker registry such as the public Docker Hub (requires a little bit more work).  (NOT DONE)
- 
+  - Push the integration project to GitHub and then deploy to production server by cloning that github repo and starting the app with "docker-compose". 
+  
+  
 # Channel 1: Blog with stories for policy makers / non-experts
 
 This can be done completely separately or as part of this effort but publishing results to another place (still integrable such as publishing results to a static Jekyll-site to GitHub under your own subdomain). 

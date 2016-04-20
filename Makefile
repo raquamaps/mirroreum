@@ -2,7 +2,6 @@ ME=$(USER)
 all: build init up
 
 clean: stop rm
-	sudo chown -R $(ME):$(ME) nginx-conf nginx-html nginx-certs nginx-logs
 
 init:
 	mkdir -p src shr/dynamic shr/static
@@ -10,14 +9,14 @@ init:
 build:
 	docker-compose build
 
+portal:
+	docker-compose run jekyll clean
+	docker-compose run jekyll build
+	docker-compose restart portal
+
 up:
 	docker-compose up -d
-	@echo "Running locally? Put {wrangler,static,dynamic}.local in your /etc/hosts!"
-	sleep 5
-	wget --retry-connrefused --tries=5 --waitretry=6 "http://wrangler.local"
-
-	@echo "Opening app!"
-	firefox http://wrangler.local/
+	@echo "Running locally? Put {wrangler,static,dynamic,portal}.mirroreum.eu in your /etc/hosts!"
 
 stop:
 	docker-compose stop

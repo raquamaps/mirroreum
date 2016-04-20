@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>EUBON Mirroreum</title>
+    <description>A Jekyll theme for content-rich sites</description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Fri, 15 Apr 2016 08:40:55 +0200</pubDate>
+    <lastBuildDate>Fri, 15 Apr 2016 08:40:55 +0200</lastBuildDate>
+    <generator>Jekyll v3.1.1</generator>
+    
+      <item>
+        <title>Mirroreum - Reproducible Open Research for EUBON</title>
+        <description>&lt;figure&gt;&lt;figcaption&gt;ROR - Reproducible Open Research&lt;/figcaption&gt;&lt;img src=&quot;/assets/img/mirroreum.png&quot; /&gt;&lt;/figure&gt;
+
+&lt;p&gt;&lt;span class=&quot;newthought&quot;&gt;Mirroreum is a platform&lt;/span&gt;  for Reproducible Open Research within EUBON and includes various products and software tools produced in the European Biodiversity Observation Network.&lt;/p&gt;
+
+&lt;h1 id=&quot;architecture&quot;&gt;Architecture&lt;/h1&gt;
+
+&lt;p&gt;It provides a platform for authoring and sharing reproducible open research analytics, tools and results and builds on a stack of technologies utilizing &lt;em&gt;docker&lt;/em&gt; and &lt;em&gt;docker-compose&lt;/em&gt; for integrating microserver architectural software components.&lt;/p&gt;
+
+&lt;h1 id=&quot;authoring&quot;&gt;Authoring&lt;/h1&gt;
+
+&lt;p&gt;For web-based authoring of open science work, &lt;em&gt;ROpenSci&lt;/em&gt; is used, extended with EUBON contributions with &lt;em&gt;RStudio&lt;/em&gt; for web-based scientific analysis.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://wrangler.local&quot;&gt;http://wrangler.local&lt;/a&gt;&lt;/p&gt;
+
+&lt;h1 id=&quot;sharing&quot;&gt;Sharing&lt;/h1&gt;
+
+&lt;p&gt;For web-friendly sharing of research results, &lt;em&gt;Jekyll, nginx and shiny&lt;/em&gt; are used.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://portal.local&quot;&gt;http://portal.local&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 12 Apr 2016 23:46:04 +0200</pubDate>
+        <link>/articles/16/mirroreum</link>
+        <guid isPermaLink="true">/articles/16/mirroreum</guid>
+        
+        
+      </item>
+    
+  </channel>
+</rss>
