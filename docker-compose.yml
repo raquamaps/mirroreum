@@ -9,7 +9,7 @@ fs:
 fs.jekyll:
   image: tianon/true
   volumes:
-    - ./src/jekyll/_site:/usr/share/nginx/html:rw
+    - ./src/jekyll/_site:/usr/share/nginx/html:ro
 
 fs.proxy:
   image: tianon/true
@@ -18,23 +18,21 @@ fs.proxy:
 
 ropensci:
   build: eubon-rocker
+#  labels: letsencrypt.nocert=true
   environment:
     - VIRTUAL_HOST=wrangler.mirroreum.eu
     - VIRTUAL_PORT=8787
     - USER=rstudio
     - PASSWORD=rstudio
     - ROOT=TRUE
-  ports:
-    - "8787:8787"
   volumes_from:
     - fs
 
 shiny:
   image: rocker/shiny
+#  labels: letsencrypt.nocert=true
   environment:
     - VIRTUAL_HOST=dynamic.mirroeum.eu
-  ports:
-    - "3737:3737"
   links:
     - ropensci
   volumes_from:
@@ -42,6 +40,7 @@ shiny:
 
 nginx:
   image: nginx
+#  labels: letsencrypt.nocert=true
   environment:
     - VIRTUAL_HOST=static.mirroreum.eu
   volumes_from:
@@ -55,6 +54,7 @@ jekyll:
 
 portal:
   image: nginx
+#  labels: letsencrypt.nocert=true
   environment:
     - VIRTUAL_HOST=portal.mirroreum.eu
   volumes_from:
@@ -62,7 +62,6 @@ portal:
 
 proxy:
   image: eforce21/letsencrypt-nginx-proxy
-  container_name: proxy
   ports:
     - "80:80"
     - "443:443"
