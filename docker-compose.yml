@@ -2,7 +2,7 @@ fs:
   image: tianon/true
   volumes:
     - ./src:/home/rstudio:rw
-    - ./src/jekyll/:/srv/jekyll:rw
+    - ./src/jekyll:/srv/jekyll:rw
     - ./shr/dynamic:/srv/shiny-server:rw
     - ./shr/static:/usr/share/nginx/html:rw
 
@@ -18,7 +18,6 @@ fs.proxy:
 
 ropensci:
   build: eubon-rocker
-#  labels: letsencrypt.nocert=true
   environment:
     - VIRTUAL_HOST=wrangler.mirroreum.eu
     - VIRTUAL_PORT=8787
@@ -30,7 +29,6 @@ ropensci:
 
 shiny:
   image: rocker/shiny
-#  labels: letsencrypt.nocert=true
   environment:
     - VIRTUAL_HOST=dynamic.mirroeum.eu
   links:
@@ -40,25 +38,32 @@ shiny:
 
 nginx:
   image: nginx
-#  labels: letsencrypt.nocert=true
   environment:
     - VIRTUAL_HOST=static.mirroreum.eu
   volumes_from:
     - fs
 
 jekyll:
-  image: jekyll/jekyll
-  command: bundle exec jekyll build --incremental --watch
-  volumes_from:
-    - fs
+  image: jekyll/jekyll:3.1.3
+  command: bundle exec jekyll serve --watch
+#  image: grahamc/jekyll:next
+#  command: serve --watch
+  labels:
+    letsencrypt.nocert: "true"
+  ports:
+    - "4000:4000"
+  environment:
+    - VIRTUAL_HOST=mirroreum.eu
+    - VIRTUAL_PORT=4000
+  volumes:
+    - ./src/jekyll:/srv/jekyll
 
 portal:
   image: nginx
-#  labels: letsencrypt.nocert=true
   environment:
     - VIRTUAL_HOST=portal.mirroreum.eu
-  volumes_from:
-    - fs.jekyll
+  volumes:
+    - ./src/jekyll/_site:/usr/share/nginx/html
 
 proxy:
   image: eforce21/letsencrypt-nginx-proxy

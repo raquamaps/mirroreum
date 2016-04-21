@@ -10,9 +10,7 @@ build:
 	docker-compose build
 
 portal:
-	docker-compose stop jekyll
-	docker-compose run jekyll bundle exec jekyll clean
-	docker-compose up -d jekyll 
+	docker-compose restart jekyll
 	docker-compose restart portal
 
 up:
