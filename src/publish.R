@@ -7,7 +7,7 @@ library(rticles)
 message("Publishing results")
 Sys.setenv(PDFLATEX = "xelatex")
 
-setwd("eubon")
+setwd("eubon/hrf")
 
 render("hrf.Rmd", 
   output_format = "md_document", 
@@ -27,6 +27,23 @@ render("hrf.Rmd",
 render("hrf.Rmd", 
   output_format = "tufte::tufte_book", 
   output_file = "hrf.pdf", 
+  encoding = "utf-8")
+
+setwd("../aquamaps")
+
+render("aquamaps.Rmd", 
+  output_format = "tufte::tufte_html", 
+  output_file = "aquamaps.html", 
+  encoding = "utf-8")
+
+render("aquamaps.Rmd", 
+   output_format = "tufte::tufte_book", 
+   output_file = "aquamaps.pdf", 
+   encoding = "utf-8")
+
+render("aquamaps.Rmd", 
+  output_format = "word_document", 
+  output_file = "aquamaps.docx", 
   encoding = "utf-8")
 
 setwd("~")

@@ -2,7 +2,7 @@ fs:
   image: tianon/true
   volumes:
     - ./src:/home/rstudio:rw
-    - ./src/jekyll/:/src:rw
+    - ./src/jekyll/:/srv/jekyll:rw
     - ./shr/dynamic:/srv/shiny-server:rw
     - ./shr/static:/usr/share/nginx/html:rw
 
@@ -14,16 +14,11 @@ fs.jekyll:
 fs.proxy:
   image: tianon/true
   volumes:
-    - ./letsencrypt/certs:/etc/nginx/certs:ro
-    - ./letsencrypt/conf:/etc/nginx/vhost.d
-    - ./letsencrypt/html:/usr/share/nginx/html
     - /var/run/docker.sock:/tmp/docker.sock:ro
 
 ropensci:
   build: eubon-rocker
   environment:
-    - ENCRYPT_EMAIL=dina@mail.dina-web.net
-    - ENCRYPT_HOST=wrangler.mirroreum.eu
     - VIRTUAL_HOST=wrangler.mirroreum.eu
     - VIRTUAL_PORT=8787
     - USER=rstudio
@@ -37,8 +32,6 @@ ropensci:
 shiny:
   image: rocker/shiny
   environment:
-    - ENCRYPT_EMAIL=dina@mail.dina-web.net
-    - ENCRYPT_HOST=dynamic.mirroreum.eu
     - VIRTUAL_HOST=dynamic.mirroeum.eu
   ports:
     - "3737:3737"
@@ -50,45 +43,28 @@ shiny:
 nginx:
   image: nginx
   environment:
-    - ENCRYPT_EMAIL=dina@mail.dina-web.net
-    - ENCRYPT_HOST=static.mirroreum.eu
     - VIRTUAL_HOST=static.mirroreum.eu
   volumes_from:
     - fs
 
 jekyll:
-  image: grahamc/jekyll:next
-  command: build --incremental -w
-  ports:
-    - "4000:4000"
+  image: jekyll/jekyll
+  command: bundle exec jekyll build --incremental --watch
   volumes_from:
     - fs
 
 portal:
   image: nginx
   environment:
-    - ENCRYPT_EMAIL=dina@mail.dina-web.net
-    - ENCRYPT_HOST=mirroreum.eu,portal.mirroreum.eu,www.mirroreum.eu
-    - VIRTUAL_HOST=mirroreum.eu,portal.mirroreum.eu,www.mirroreum.eu
+    - VIRTUAL_HOST=portal.mirroreum.eu
   volumes_from:
     - fs.jekyll
 
 proxy:
-  image: jwilder/nginx-proxy
+  image: eforce21/letsencrypt-nginx-proxy
   container_name: proxy
   ports:
     - "80:80"
     - "443:443"
   volumes_from:
     - fs.proxy
-
-letsencrypt:
-  environment:
-    - DEBUG=true
-    - NGINX_PROXY_CONTAINER=proxy
-  image: jrcs/letsencrypt-nginx-proxy-companion
-  volumes_from:
-    - fs.proxy
-  volumes:
-    - /var/run/docker.sock:/var/run/docker.sock:ro
-    - /letsencrypt/certs:/etc/nginx/certs:rw

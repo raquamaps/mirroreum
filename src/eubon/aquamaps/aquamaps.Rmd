@@ -3,7 +3,7 @@ title: ""
 author: ""
 date: ""
 output:
-  tufte::tufte_book
+  tufte::tufte_html
 ---
 
 ```{r setup, include=FALSE}
