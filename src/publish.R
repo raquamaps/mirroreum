@@ -46,6 +46,24 @@ render("aquamaps.Rmd",
   output_file = "aquamaps.docx", 
   encoding = "utf-8")
 
+setwd("../mirroreum")
+
+render("mirroreum.Rmd", 
+       output_format = "tufte::tufte_html", 
+       output_file = "mirroreum.html", 
+       encoding = "utf-8")
+
+render("mirroreum.Rmd", 
+       output_format = "tufte::tufte_book", 
+       output_file = "mirroreum.pdf", 
+       encoding = "utf-8")
+
+render("mirroreum.Rmd", 
+       output_format = "word_document", 
+       output_file = "mirroreum.docx", 
+       encoding = "utf-8")
+
 setwd("~")
+
 
 system("sudo make static")
