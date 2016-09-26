@@ -1,4 +1,6 @@
-ME=$(USER)
+ME = $(USER)
+PWD = $(shell pwd)
+
 all: build init up
 
 clean: stop rm
@@ -8,6 +10,27 @@ init:
 	
 build:
 	docker-compose build
+
+build-webide:
+
+	@echo "Building docker image with Web IDE + packages..."
+	@docker build -t raquamaps/mirroreum:v0 eubon-rocker
+
+webide:
+	@echo "Running only the Web IDE for RStudio..."
+
+	@docker run --name mirroreum \
+		-e VIRTUAL_HOST=wrangler.mirrroreum.eu \
+		-e VIRTUAL_PORT=8787 \
+		-e USER=rstudio -e PASSWORD=rstudio -e ROOT=TRUE \
+		-p 8787:8787 \
+		-v $(PWD)/src:/home/rstudio \
+		raquamaps/mirroreum:v0
+
+	@xdg-open http://localhost:8787
+
+	@echo "You can clean up now with:"
+	@echo "docker rm mirroreum"
 
 portal:
 	docker-compose restart jekyll
