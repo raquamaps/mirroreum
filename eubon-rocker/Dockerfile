@@ -23,6 +23,7 @@ RUN apt-get install -y --allow-downgrades \
 # explicitly install R pkg deps for HieRanFor and UpScaling
 # since the --deps TRUE option doesn't seem to work below (?)
 RUN install2.r --error \
+	sparklyr \
 	downscale \
 	getopt \
 	tufte \
@@ -55,6 +56,7 @@ RUN cd /tmp/eubon && install2.r --deps TRUE --repos NULL --error \
 RUN installGithub.r --deps TRUE \
 	raquamaps/raquamaps \
 	mskyttner/swedishbirdtrends \
+	mskyttner/swedishbirdrecoveries \
 	AtlasOfLivingAustralia/ALA4R
 
 # clean up
