@@ -57,7 +57,16 @@ RUN installGithub.r --deps TRUE \
 	raquamaps/raquamaps \
 	mskyttner/swedishbirdtrends \
 	mskyttner/swedishbirdrecoveries \
-	AtlasOfLivingAustralia/ALA4R
+	AtlasOfLivingAustralia/ALA4R 
+
+# add Ecology packages
+
+RUN install2.r --error \
+	speciesgeocodeR
+
+RUN installGithub.r --deps TRUE \
+	azizka/sampbias
+
 
 # clean up
 RUN rm -rf /tmp/*.rds && \
