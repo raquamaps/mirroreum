@@ -1,5 +1,7 @@
 FROM rocker/ropensci:latest
 
+RUN rm -vfr /var/lib/apt/lists/*
+
 RUN apt-get update && apt-get -y upgrade && apt-get install -y \
 	texlive-generic-recommended texlive-xetex \
 	libmpfr-dev \
@@ -14,8 +16,8 @@ RUN kpsewhich -var-value TEXMFLOCAL
 # workaround to get rgdal to work on debian
 # side-effect from bleeding edge hadleyverse?
 RUN apt-get install -y --allow-downgrades \
-	libgdal20=2.1.1+dfsg-5 \
-	libmariadbclient18=10.0.27-2 \
+ 	libgdal20=2.1.2+dfsg-2+b1 \
+	libmariadbclient18=10.0.28-2 \
 	libmariadbclient-dev \
 	libmariadbclient-dev-compat default-libmysqlclient-dev \
 	libgdal-dev
