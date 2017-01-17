@@ -16,6 +16,17 @@ build-webide:
 	@echo "Building docker image with Web IDE + packages..."
 	@docker build -t raquamaps/mirroreum:v0 eubon-rocker
 
+build-shiny:
+
+	@echo ""
+	@docker build -t raquamaps/shiny:v0 eubon-shiny
+
+up-shiny:
+	@echo ""
+	@docker run --name eubonshiny \
+		-p 3838:3838 \
+		raquamaps/shiny:v0
+
 webide:
 	@echo "Running only the Web IDE for RStudio..."
 
