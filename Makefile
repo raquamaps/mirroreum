@@ -23,8 +23,9 @@ build-shiny:
 
 up-shiny:
 	@echo ""
-	@docker run --name eubonshiny \
-		-p 3838:3838 \
+	@docker run --rm --name eubonshiny \
+		-p 3838:3838 -p 1410:1410 \
+		-v $(PWD)/src:/home/rstudio \
 		raquamaps/shiny:v0
 
 webide:
