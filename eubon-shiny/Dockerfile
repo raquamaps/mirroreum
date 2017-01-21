@@ -1,6 +1,8 @@
 FROM raquamaps/mirroreum:v0
 
-RUN apt-get update && apt-get install -y -t unstable \
+# wierd workaround due to error from apt ("Couldnot open file /var/lib/apt/lists/deb.debian.org_debian_dists_testing_main_binary-amd64_Packages.diff_Index - open (2: No such file or directory)")
+RUN apt-get update -t unstable || apt-get update -t unstable && \
+    apt-get install -y -t unstable \
     sudo \
     gdebi-core \
     pandoc \
