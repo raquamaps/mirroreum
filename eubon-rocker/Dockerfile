@@ -15,9 +15,10 @@ RUN kpsewhich -var-value TEXMFLOCAL
 
 # workaround to get rgdal to work on debian
 # side-effect from bleeding edge hadleyverse?
-RUN apt-get install -y --allow-downgrades \
+RUN apt-get update && apt-get update && apt-get install -y --allow-downgrades \
  	libgdal20=2.1.2+dfsg-2+b1 \
-	libmariadbclient18=10.0.28-2 \
+	libmariadbclient18 \
+#	libmariadbclient18=10.0.28-2 \
 	libmariadbclient-dev \
 	libmariadbclient-dev-compat default-libmysqlclient-dev \
 	libgdal-dev
@@ -34,12 +35,36 @@ RUN install2.r --error \
 	rticles \
 	tint \
 	cartogram \
-	randomForest \
-	pdfCluster \
+	randomForest
+
+RUN install2.r --error \
+	Rserve \
+#	pdfCluster \
 	caret \
 	treemap \
 	AICcmodavg \
-	SDMTools
+	SDMTools \
+	ade4 \
+	adehabitatHR \
+	adehabitatMA \
+	maptools \
+	shapefiles \
+	alphahull \
+	spatstat \
+	Grid2Polygons \
+	googleVis \
+	spacetime \
+	plotKML
+
+RUN install2.r --error \
+	pdfCluster
+
+# add packages for zoa
+RUN wget -P /tmp 'https://rawgit.com/positioning/kalmanfilter/master/downloads/R3x/64bit/linux/kftrack_0.70-x64.tar.gz' && \
+	wget -P /tmp 'https://rawgit.com/positioning/kalmanfilter/master/downloads/R3x/64bit/linux/ukfsst_0.3-x64.tar.gz' && \
+	Rscript -e "install.packages('/tmp/kftrack_0.70-x64.tar.gz', repos=NULL)" && \
+	Rscript -e "install.packages(c('date', 'ncdf'), repos='http://cran.csiro.au/')" && \
+	Rscript -e "install.packages('/tmp/ukfsst_0.3-x64.tar.gz', repos=NULL)"
 
 # add semi-packaged eubon R packages
 RUN mkdir -p /tmp/eubon
@@ -54,21 +79,17 @@ RUN cd /tmp/eubon && install2.r --deps TRUE --repos NULL --error \
 	HieRanFor \
 	UpScaling
 
-# add packages from GitHub
+# add GitHub and Ecology packages
 RUN installGithub.r --deps TRUE \
 	raquamaps/raquamaps \
 	mskyttner/swedishbirdtrends \
-	mskyttner/swedishbirdrecoveries \
-	AtlasOfLivingAustralia/ALA4R 
-
-# add Ecology packages
-
-RUN install2.r --error \
-	speciesgeocodeR
+	mskyttner/swedishbirdrecoveries
 
 RUN installGithub.r --deps TRUE \
-	azizka/sampbias
-
+	AtlasOfLivingAustralia/ALA4R \
+	azizka/sampbias \
+	azizka/speciesgeocodeR \
+	fschirr/VirSysMon
 
 # clean up
 RUN rm -rf /tmp/*.rds && \

@@ -8,18 +8,19 @@ clean: stop rm
 init:
 	mkdir -p src shr/dynamic shr/static
 	
-build:
-	docker-compose build
+build: build-webide build-shiny
 
 build-webide:
 
 	@echo "Building docker image with Web IDE + packages..."
-	@docker build -t raquamaps/mirroreum:v0 eubon-rocker
+	@docker build --no-cache -t raquamaps/mirroreum:v0 eubon-rocker
+	#@docker build -t raquamaps/mirroreum:v0 eubon-rocker
 
 build-shiny:
 
 	@echo ""
 	@docker build -t raquamaps/shiny:v0 eubon-shiny
+	#@docker build --no-cache -t raquamaps/shiny:v0 eubon-shiny
 
 up-shiny:
 	@echo ""
