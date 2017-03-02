@@ -15,13 +15,16 @@ RUN kpsewhich -var-value TEXMFLOCAL
 
 # workaround to get rgdal to work on debian
 # side-effect from bleeding edge hadleyverse?
-RUN apt-get update && apt-get update && apt-get install -y --allow-downgrades \
- 	libgdal20=2.1.2+dfsg-2+b1 \
-	libmariadbclient18 \
+RUN apt-get update && apt-get update && apt-get install -y \
+#    libgdal20 \
+# 	libgdal20=2.1.2+dfsg-3 \
+# 	libgdal20=2.1.2+dfsg-2+b1 \
+#	libmariadbclient18 \
 #	libmariadbclient18=10.0.28-2 \
-	libmariadbclient-dev \
-	libmariadbclient-dev-compat default-libmysqlclient-dev \
-	libgdal-dev
+#	libmariadbclient-dev \
+#	libmariadbclient-dev-compat default-libmysqlclient-dev \
+	libgdal-dev \
+    libnlopt-dev
 
 # explicitly install R pkg deps for HieRanFor and UpScaling
 # since the --deps TRUE option doesn't seem to work below (?)
@@ -39,7 +42,6 @@ RUN install2.r --error \
 
 RUN install2.r --error \
 	Rserve \
-#	pdfCluster \
 	caret \
 	treemap \
 	AICcmodavg \
@@ -57,7 +59,8 @@ RUN install2.r --error \
 	plotKML
 
 RUN install2.r --error \
-	pdfCluster
+	pdfCluster \
+	move
 
 # add packages for zoa
 RUN wget -P /tmp 'https://rawgit.com/positioning/kalmanfilter/master/downloads/R3x/64bit/linux/kftrack_0.70-x64.tar.gz' && \
