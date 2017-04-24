@@ -1,3 +1,6 @@
+# bayesian_SDM.r: it simulates an SDM with Bayesian knowledge. GBIF data are simulated in this script.
+# Ref pub:  Rocchini, D., Garzon-Lopez, C.X., Marcantonio, M., Amici, V., Bacaro, G., Bastin, L., Brummitt, N., Chiarucci, A., Foody, G.M., Hauffe, H.C., He, K.S., Ricotta, C., Rizzoli, A., Rosá, R. (2017). Anticipating species distributions: handling sampling effort bias under a Bayesian framework. Science of the Total Environment, 584-585, 282-290. [5years-IF: 4.317] doi: http://dx.doi.org/10.1016/j.scitotenv.2016.12.038
+
 ############# R Script to predict species probability of presence #########################
 ## Hierarchical model, observavions ⊂ small_cells ⊂ big_cells ⊂ NUTS3 polygons
 ## Input = GBIF data; in the code below input data are simulated

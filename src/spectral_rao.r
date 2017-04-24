@@ -1,3 +1,6 @@
+# spectral_rao.r: this is an R function to calculate Rao's Q diversity index on a single and multidimensional space.
+# Ref pub: Rocchini, D., Marcantonio, M., Ricotta, C. (2017). Measuring Rao’s Q diversity index from remote sensing: an open source solution. Ecological Indicators, 72: 234-238. [5years-IF: 3.649] doi:http://dx.doi.org/10.1016/j.ecolind.2016.07.039
+
 ######### SPECTRAL RAO #############################
 ## Code to calculate Rao's quadratic entropy on a
 ## numeric matrix, RasterLayer object (or lists)
